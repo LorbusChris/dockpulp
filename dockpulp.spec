@@ -4,13 +4,13 @@ Release:	1%{?dist}
 Summary:	Configure the Pulp instances that power Docker registrires for Red Hat
 
 Group:		Applications/System
-License:	Red Hat Internal
+License:	GPLv3
 URL:		https://github.com/release-engineering/dockpulp.git
-Source0:	%{name}-%{version}.tar.gz
+Source0:	https://github.com/release-engineering/dockpulp/archive/%{version}/%{name}-%{version}-1.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:  noarch
 
-BuildRequires:	python-devel
+BuildRequires:	python3-devel
 Requires: python-requests
 Requires: gnupg
 Requires: python-six
@@ -29,22 +29,18 @@ and workflows that are specific to docker image and registries.
 %build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{python_sitelib}/dockpulp
+install -d $RPM_BUILD_ROOT%{python3_sitelib}/dockpulp
 install -d $RPM_BUILD_ROOT%{_bindir}
-install -pm 0644 dockpulp/* $RPM_BUILD_ROOT%{python_sitelib}/dockpulp
+install -pm 0644 dockpulp/* $RPM_BUILD_ROOT%{python3_sitelib}/dockpulp
 install -pm 0755 bin/dock-pulp $RPM_BUILD_ROOT%{_bindir}/dock-pulp
 install -pm 0755 bin/dock-pulp-bootstrap $RPM_BUILD_ROOT%{_bindir}/dock-pulp-bootstrap
 install -pm 0755 bin/dock-pulp-restore $RPM_BUILD_ROOT%{_bindir}/dock-pulp-restore
 install -pm 0755 bin/dock-pulp-recreate-hidden $RPM_BUILD_ROOT%{_bindir}/dock-pulp-recreate-hidden
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 
 %files
 %defattr(-,root,root,-)
-%{python_sitelib}/*
+%{python3_sitelib}/*
 %{_bindir}/*
 %doc LICENSE
 
